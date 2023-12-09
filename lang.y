@@ -313,18 +313,18 @@ else : ELSE                   {
 
 // IV.4. Iterations
 
-loop : while while_cond inst  {printf("GOTO(StartLoop_%d)\n", $<label_value>2);
-                              printf("EndLoop_%d:\n", $<label_value>2);}
+loop : while while_cond inst  {printf("GOTO(StartLoop_%d)\n", $<label_value>1);
+                              printf("EndLoop_%d:\n", $<label_value>1);}
 ;
 
-while_cond : PO exp PF        {
+while_cond : PO exp PF        { 
                               printf("GTI\n");
-                              printf("IFN(EndLoop_%d)\n", $<label_value>2);
+                              printf("IFN(EndLoop_%d)\n", $<label_value>0);
                                 }
 
 while : WHILE                 {
                               $<label_value>$ = make_label2();
-                             }
+                              printf("StartLoop_%d:\n",$<label_value>$ );}
 ;
 
 
