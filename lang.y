@@ -9,7 +9,7 @@ extern int yylex();
 extern int yyparse();
 
 int depth=0;
-int cmp=0;
+int cmp=1;
 
 
 void yyerror (char* s) {
@@ -112,7 +112,7 @@ char * type2string (int c) {
 
 prog : glob_decl_list              {$$ = $1;}
 
-glob_decl_list : glob_decl_list fun { }
+glob_decl_list : glob_decl_list fun { $$ = $1;}
 | glob_decl_list decl PV       {$$ = $2;}
 |                              {$$ = -1;} // empty glob_decl_list shall be forbidden, but usefull for offset computation
 
@@ -178,56 +178,33 @@ var_decl : type vlist          { $$ = $2; }
 
 vlist: vlist vir ID {
     // Incrémente le compteur d'offset pour la variable actuelle
-    $$ = $$ + 1; 
-    // Si la profondeur est 0, c'est une variable globale
-    if (depth == 0){
-        // Met à jour la table des symboles pour la variable globale
-        set_symbol_value($<string_value>3, makeSymbol($<type_value>0, $$, 0));
-        // Génère du code PCode pour initialiser la variable
-        if ($<type_value>0 == INT) {
-            printf("LOADI(0)\n");
-        } else if ($<type_value>0 == FLOAT) {
-            printf("LOADF(0.0)\n");
-        }
-    } else {
-        // Sinon, c'est une variable locale
-        // Met à jour la table des symboles pour la variable locale
+    $$ = $1 + 1; 
+        // Met à jour la table des symboles 
         set_symbol_value($3, makeSymbol($<type_value>0, $$, depth));
         // Génère du code PCode pour initialiser la variable
         if ($<type_value>0 == INT) {
             printf("LOADI(0)\n");
-        } else if ($<type_value>0 == FLOAT) {
+        } 
+        else if ($<type_value>0 == FLOAT) {
             printf("LOADF(0.0)\n");
         }
-    }
+    
 } 
 | ID {
     // Si la profondeur est différente de zéro, met à jour l'offset
     $$ = $<int_value>-1 + 1;
 
-    // Met à jour la table des symboles pour la variable
-    if (depth == 0) {
-        // Met à jour la table des symboles pour la variable globale
+        // Met à jour la table des symboles pour la variable
         set_symbol_value($1, makeSymbol($<type_value>0, $$, depth));
 
         // Génère du code PCode pour initialiser la variable
         if ($<type_value>0 == INT) {
             printf("LOADI(0)\n");
-        } else if ($<type_value>0 == FLOAT) {
+        } 
+        else if ($<type_value>0 == FLOAT) {
             printf("LOADF(0.0)\n");
         }
-    } else {
-        // Sinon, c'est une variable locale
-        // Met à jour la table des symboles pour la variable locale
-        set_symbol_value($1, makeSymbol($<type_value>0, $$, depth));
-
-        // Génère du code PCode pour initialiser la variable
-        if ($<type_value>0 == INT) {
-            printf("LOADI(0)\n");
-        } else if ($<type_value>0 == FLOAT) {
-            printf("LOADF(0.0)\n");
-        }
-    }
+    
 }
 
 ;
