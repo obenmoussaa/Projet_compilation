@@ -100,8 +100,19 @@ char* concatenate_strings(const char* str1, const char* str2) {
     return final_result;
 }
 
+int make_label(){
+  static int n = 0;
+  return n++;
+}
 
-#line 105 "y.tab.c"
+int make_label2(){
+  static int m = 0;
+  return m++;
+}
+
+
+
+#line 116 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -222,7 +233,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 35 "lang.y"
+#line 46 "lang.y"
  
   struct ATTRIBUTE * symbol_value;
   char * string_value;
@@ -232,7 +243,7 @@ union YYSTYPE
   int label_value;
   int offset_value;
 
-#line 236 "y.tab.c"
+#line 247 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -329,7 +340,7 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
 
 
 /* Second part of user prologue.  */
-#line 71 "lang.y"
+#line 82 "lang.y"
 
 char * type2string (int c) {
   switch (c)
@@ -348,7 +359,7 @@ char * type2string (int c) {
   
   
 
-#line 352 "y.tab.c"
+#line 363 "y.tab.c"
 
 
 #ifdef short
@@ -733,14 +744,14 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   102,   102,   104,   105,   106,   110,   113,   119,   128,
-     134,   138,   141,   144,   146,   152,   157,   158,   161,   164,
-     168,   193,   225,   229,   230,   231,   236,   237,   240,   244,
-     245,   246,   247,   248,   249,   254,   257,   263,   270,   271,
-     280,   283,   284,   287,   293,   297,   305,   309,   314,   322,
-     324,   350,   372,   399,   400,   403,   418,   419,   420,   425,
-     426,   427,   428,   429,   430,   431,   438,   441,   443,   444,
-     447,   448
+       0,   113,   113,   115,   116,   117,   121,   124,   130,   139,
+     145,   149,   152,   155,   157,   163,   168,   169,   172,   175,
+     179,   204,   236,   240,   241,   242,   247,   248,   251,   255,
+     256,   257,   258,   259,   260,   265,   268,   274,   281,   282,
+     291,   294,   295,   298,   304,   308,   316,   320,   325,   335,
+     337,   363,   385,   412,   413,   416,   431,   432,   433,   438,
+     439,   440,   441,   442,   443,   444,   451,   454,   456,   457,
+     460,   461
 };
 #endif
 
@@ -1391,47 +1402,47 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* prog: glob_decl_list  */
-#line 102 "lang.y"
+#line 113 "lang.y"
                                    {(yyval.offset_value) = (yyvsp[0].offset_value);}
-#line 1397 "y.tab.c"
+#line 1408 "y.tab.c"
     break;
 
   case 3: /* glob_decl_list: glob_decl_list fun  */
-#line 104 "lang.y"
+#line 115 "lang.y"
                                     { }
-#line 1403 "y.tab.c"
+#line 1414 "y.tab.c"
     break;
 
   case 4: /* glob_decl_list: glob_decl_list decl PV  */
-#line 105 "lang.y"
+#line 116 "lang.y"
                                {(yyval.offset_value) = (yyvsp[-1].offset_value);}
-#line 1409 "y.tab.c"
+#line 1420 "y.tab.c"
     break;
 
   case 5: /* glob_decl_list: %empty  */
-#line 106 "lang.y"
+#line 117 "lang.y"
                                {(yyval.offset_value) = -1;}
-#line 1415 "y.tab.c"
+#line 1426 "y.tab.c"
     break;
 
   case 6: /* fun: type fun_head fun_body  */
-#line 110 "lang.y"
+#line 121 "lang.y"
                                {}
-#line 1421 "y.tab.c"
+#line 1432 "y.tab.c"
     break;
 
   case 7: /* fun_head: ID PO PF  */
-#line 113 "lang.y"
+#line 124 "lang.y"
                                {
           // Pas de déclaration de fonction à l'intérieur de fonctions !
           if (depth>0) yyerror("Function must be declared at top level~!\n");
             printf("%s pcode_%s()", type2string((yyvsp[-3].type_value)), (yyvsp[-2].string_value));
           }
-#line 1431 "y.tab.c"
+#line 1442 "y.tab.c"
     break;
 
   case 8: /* fun_head: ID PO params PF  */
-#line 119 "lang.y"
+#line 130 "lang.y"
                                      {
           // Pas de déclaration de fonction à l'intérieur de fonctions !
           if (depth>0) yyerror("Function must be declared at top level~!\n");
@@ -1439,83 +1450,83 @@ yyreduce:
           printf("%s pcode_%s( %s )", type2string((yyvsp[-4].type_value)), (yyvsp[-3].string_value),argu);
          
       }
-#line 1443 "y.tab.c"
+#line 1454 "y.tab.c"
     break;
 
   case 9: /* params: type ID vir params  */
-#line 128 "lang.y"
+#line 139 "lang.y"
                                {
                     (yyval.string_value) = concatenate_strings(
                       concatenate_strings(
                         concatenate_strings(type2string((yyvsp[-3].type_value)), " " ), concatenate_strings((yyvsp[-2].string_value), ",")), 
                         (yyvsp[0].string_value));
                       }
-#line 1454 "y.tab.c"
+#line 1465 "y.tab.c"
     break;
 
   case 10: /* params: type ID  */
-#line 134 "lang.y"
+#line 145 "lang.y"
                                { 
                     (yyval.string_value) = concatenate_strings(concatenate_strings(type2string((yyvsp[-1].type_value)), " "), (yyvsp[0].string_value));}
-#line 1461 "y.tab.c"
+#line 1472 "y.tab.c"
     break;
 
   case 11: /* vir: VIR  */
-#line 138 "lang.y"
+#line 149 "lang.y"
                                {}
-#line 1467 "y.tab.c"
+#line 1478 "y.tab.c"
     break;
 
   case 12: /* fun_body: fao block faf  */
-#line 141 "lang.y"
+#line 152 "lang.y"
                                {}
-#line 1473 "y.tab.c"
+#line 1484 "y.tab.c"
     break;
 
   case 13: /* fao: AO  */
-#line 144 "lang.y"
+#line 155 "lang.y"
                                { printf("{\n") ; }
-#line 1479 "y.tab.c"
+#line 1490 "y.tab.c"
     break;
 
   case 14: /* faf: AF  */
-#line 146 "lang.y"
+#line 157 "lang.y"
                                {printf("}\n") ; }
-#line 1485 "y.tab.c"
+#line 1496 "y.tab.c"
     break;
 
   case 15: /* block: decl_list inst_list  */
-#line 152 "lang.y"
+#line 163 "lang.y"
                                { }
-#line 1491 "y.tab.c"
+#line 1502 "y.tab.c"
     break;
 
   case 16: /* decl_list: decl_list decl PV  */
-#line 157 "lang.y"
+#line 168 "lang.y"
                                 {(yyval.offset_value) = (yyvsp[-2].offset_value) + (yyvsp[-1].offset_value);}
-#line 1497 "y.tab.c"
+#line 1508 "y.tab.c"
     break;
 
   case 17: /* decl_list: %empty  */
-#line 158 "lang.y"
+#line 169 "lang.y"
                                 { (yyval.offset_value) = 0;}
-#line 1503 "y.tab.c"
+#line 1514 "y.tab.c"
     break;
 
   case 18: /* decl: var_decl  */
-#line 161 "lang.y"
+#line 172 "lang.y"
                                 {(yyval.offset_value) = (yyvsp[0].offset_value);}
-#line 1509 "y.tab.c"
+#line 1520 "y.tab.c"
     break;
 
   case 19: /* var_decl: type vlist  */
-#line 164 "lang.y"
+#line 175 "lang.y"
                                { (yyval.offset_value) = (yyvsp[0].offset_value); }
-#line 1515 "y.tab.c"
+#line 1526 "y.tab.c"
     break;
 
   case 20: /* vlist: vlist vir ID  */
-#line 168 "lang.y"
+#line 179 "lang.y"
                     {
     // Incrémente le compteur d'offset pour la variable actuelle
     (yyval.offset_value) = (yyval.offset_value) + 1; 
@@ -1541,11 +1552,11 @@ yyreduce:
         }
     }
 }
-#line 1545 "y.tab.c"
+#line 1556 "y.tab.c"
     break;
 
   case 21: /* vlist: ID  */
-#line 193 "lang.y"
+#line 204 "lang.y"
      {
     // Si la profondeur est différente de zéro, met à jour l'offset
     (yyval.offset_value) = (yyvsp[(-1) - (1)].int_value) + 1;
@@ -1574,191 +1585,193 @@ yyreduce:
         }
     }
 }
-#line 1578 "y.tab.c"
+#line 1589 "y.tab.c"
     break;
 
   case 22: /* type: typename  */
-#line 225 "lang.y"
+#line 236 "lang.y"
                                {}
-#line 1584 "y.tab.c"
+#line 1595 "y.tab.c"
     break;
 
   case 23: /* typename: INT  */
-#line 229 "lang.y"
+#line 240 "lang.y"
                                {(yyval.type_value)=INT;}
-#line 1590 "y.tab.c"
+#line 1601 "y.tab.c"
     break;
 
   case 24: /* typename: FLOAT  */
-#line 230 "lang.y"
+#line 241 "lang.y"
                                {(yyval.type_value)=FLOAT;}
-#line 1596 "y.tab.c"
+#line 1607 "y.tab.c"
     break;
 
   case 25: /* typename: VOID  */
-#line 231 "lang.y"
+#line 242 "lang.y"
                                {(yyval.type_value)=VOID;}
-#line 1602 "y.tab.c"
+#line 1613 "y.tab.c"
     break;
 
   case 26: /* inst_list: inst_list inst  */
-#line 236 "lang.y"
+#line 247 "lang.y"
                             {}
-#line 1608 "y.tab.c"
+#line 1619 "y.tab.c"
     break;
 
   case 27: /* inst_list: inst  */
-#line 237 "lang.y"
+#line 248 "lang.y"
                             {}
-#line 1614 "y.tab.c"
+#line 1625 "y.tab.c"
     break;
 
   case 28: /* pv: PV  */
-#line 240 "lang.y"
+#line 251 "lang.y"
                               {}
-#line 1620 "y.tab.c"
+#line 1631 "y.tab.c"
     break;
 
   case 29: /* inst: ao block af  */
-#line 244 "lang.y"
+#line 255 "lang.y"
                               {}
-#line 1626 "y.tab.c"
+#line 1637 "y.tab.c"
     break;
 
   case 30: /* inst: aff pv  */
-#line 245 "lang.y"
+#line 256 "lang.y"
                               {}
-#line 1632 "y.tab.c"
+#line 1643 "y.tab.c"
     break;
 
   case 31: /* inst: ret pv  */
-#line 246 "lang.y"
+#line 257 "lang.y"
                               {}
-#line 1638 "y.tab.c"
+#line 1649 "y.tab.c"
     break;
 
   case 32: /* inst: cond  */
-#line 247 "lang.y"
+#line 258 "lang.y"
                               {}
-#line 1644 "y.tab.c"
+#line 1655 "y.tab.c"
     break;
 
   case 33: /* inst: loop  */
-#line 248 "lang.y"
+#line 259 "lang.y"
                               {}
-#line 1650 "y.tab.c"
+#line 1661 "y.tab.c"
     break;
 
   case 34: /* inst: pv  */
-#line 249 "lang.y"
+#line 260 "lang.y"
                               {}
-#line 1656 "y.tab.c"
+#line 1667 "y.tab.c"
     break;
 
   case 35: /* ao: AO  */
-#line 254 "lang.y"
+#line 265 "lang.y"
                               {printf("SAVEBP\n"); depth++;}
-#line 1662 "y.tab.c"
+#line 1673 "y.tab.c"
     break;
 
   case 36: /* af: AF  */
-#line 257 "lang.y"
+#line 268 "lang.y"
                               {printf("RESTOREBP\n");depth--;}
-#line 1668 "y.tab.c"
+#line 1679 "y.tab.c"
     break;
 
   case 37: /* aff: ID EQ exp  */
-#line 263 "lang.y"
+#line 274 "lang.y"
                               { 
       printf("STOREP(%d)\n",get_symbol_value((yyvsp[-2].string_value))->offset );
       }
-#line 1676 "y.tab.c"
+#line 1687 "y.tab.c"
     break;
 
   case 38: /* ret: RETURN exp  */
-#line 270 "lang.y"
+#line 281 "lang.y"
                               { printf("return;\n");}
-#line 1682 "y.tab.c"
+#line 1693 "y.tab.c"
     break;
 
   case 39: /* ret: RETURN PO PF  */
-#line 271 "lang.y"
+#line 282 "lang.y"
                               {printf("return();\n");}
-#line 1688 "y.tab.c"
+#line 1699 "y.tab.c"
     break;
 
   case 40: /* cond: if bool_cond inst elsop  */
-#line 280 "lang.y"
+#line 291 "lang.y"
                                {}
-#line 1694 "y.tab.c"
+#line 1705 "y.tab.c"
     break;
 
   case 41: /* elsop: else inst  */
-#line 283 "lang.y"
-                               {printf("End_%d\n", depth);}
-#line 1700 "y.tab.c"
+#line 294 "lang.y"
+                               {printf("End_%d\n", (yyvsp[(-2) - (2)].label_value));}
+#line 1711 "y.tab.c"
     break;
 
   case 42: /* elsop: %empty  */
-#line 284 "lang.y"
+#line 295 "lang.y"
                                {}
-#line 1706 "y.tab.c"
+#line 1717 "y.tab.c"
     break;
 
   case 43: /* bool_cond: PO exp PF  */
-#line 287 "lang.y"
+#line 298 "lang.y"
                               {  
                               printf("GTF\n");
-                              printf("IFN(False_%d)\n", depth);
+                              printf("IFN(False_%d)\n", (yyvsp[-3].label_value));
                               }
-#line 1715 "y.tab.c"
+#line 1726 "y.tab.c"
     break;
 
   case 44: /* if: IF  */
-#line 293 "lang.y"
-                              {}
-#line 1721 "y.tab.c"
+#line 304 "lang.y"
+                              {(yyval.label_value) = make_label();}
+#line 1732 "y.tab.c"
     break;
 
   case 45: /* else: ELSE  */
-#line 297 "lang.y"
+#line 308 "lang.y"
                               {
-                              printf("GOTO(End_%d)\n", depth);
-                              printf("False_%d:\n", depth); 
+                              printf("GOTO(End_%d)\n", (yyvsp[(-2) - (1)].label_value));
+                              printf("False_%d:\n", (yyvsp[(-2) - (1)].label_value)); 
                               }
-#line 1730 "y.tab.c"
+#line 1741 "y.tab.c"
     break;
 
   case 46: /* loop: while while_cond inst  */
-#line 305 "lang.y"
-                              {printf("GOTO(StartLoop_%d)\n", depth);
-                              printf("EndLoop_%d:\n", depth);}
-#line 1737 "y.tab.c"
+#line 316 "lang.y"
+                              {printf("GOTO(StartLoop_%d)\n", (yyvsp[-1].label_value));
+                              printf("EndLoop_%d:\n", (yyvsp[-1].label_value));}
+#line 1748 "y.tab.c"
     break;
 
   case 47: /* while_cond: PO exp PF  */
-#line 309 "lang.y"
+#line 320 "lang.y"
                               {
                               printf("GTI\n");
-                              printf("IFN(EndLoop_%d)\n", depth);
+                              printf("IFN(EndLoop_%d)\n", (yyvsp[-1].label_value));
                                 }
-#line 1746 "y.tab.c"
+#line 1757 "y.tab.c"
     break;
 
   case 48: /* while: WHILE  */
-#line 314 "lang.y"
-                              {printf("StartLoop_%d:\n", depth);}
-#line 1752 "y.tab.c"
+#line 325 "lang.y"
+                              {
+                              (yyval.label_value) = make_label2();
+                             }
+#line 1765 "y.tab.c"
     break;
 
   case 49: /* exp: MOINS exp  */
-#line 322 "lang.y"
+#line 335 "lang.y"
                               {}
-#line 1758 "y.tab.c"
+#line 1771 "y.tab.c"
     break;
 
   case 50: /* exp: exp PLUS exp  */
-#line 324 "lang.y"
+#line 337 "lang.y"
                          {
                               if((yyvsp[-2].type_value)==INT && (yyvsp[0].type_value) == INT){ 
                                 (yyval.type_value)=INT;
@@ -1784,11 +1797,11 @@ yyreduce:
                               if ( (yyval.type_value) == FLOAT ) {printf("ADDF\n");
                               }
                               }
-#line 1788 "y.tab.c"
+#line 1801 "y.tab.c"
     break;
 
   case 51: /* exp: exp MOINS exp  */
-#line 350 "lang.y"
+#line 363 "lang.y"
                               {
                               if ((yyvsp[-2].type_value) == INT) {
                                   if ((yyvsp[0].type_value) == INT) {
@@ -1810,11 +1823,11 @@ yyreduce:
                               else if ((yyval.type_value) == FLOAT) { printf("SUBF\n");}
                               
                               }
-#line 1814 "y.tab.c"
+#line 1827 "y.tab.c"
     break;
 
   case 52: /* exp: exp STAR exp  */
-#line 372 "lang.y"
+#line 385 "lang.y"
                               {
                               if((yyvsp[-2].type_value)==INT && (yyvsp[0].type_value) == INT){
                                 
@@ -1841,23 +1854,23 @@ yyreduce:
                               if((yyval.type_value) == INT) {printf("MULTI\n");};
                               if ( (yyval.type_value) == FLOAT ) {printf("MULTF\n");}
                              }
-#line 1845 "y.tab.c"
+#line 1858 "y.tab.c"
     break;
 
   case 53: /* exp: exp DIV exp  */
-#line 399 "lang.y"
+#line 412 "lang.y"
                              {printf("DIVI\n");}
-#line 1851 "y.tab.c"
+#line 1864 "y.tab.c"
     break;
 
   case 54: /* exp: PO exp PF  */
-#line 400 "lang.y"
+#line 413 "lang.y"
                               {}
-#line 1857 "y.tab.c"
+#line 1870 "y.tab.c"
     break;
 
   case 55: /* exp: ID  */
-#line 403 "lang.y"
+#line 416 "lang.y"
                   {
 		  attribute attribue = get_symbol_value((yyvsp[0].string_value));
 		  if (attribue != NULL) {
@@ -1872,107 +1885,107 @@ yyreduce:
 		    yyerror("Variable not declared");
 		  }
 		 }
-#line 1876 "y.tab.c"
+#line 1889 "y.tab.c"
     break;
 
   case 56: /* exp: app  */
-#line 418 "lang.y"
+#line 431 "lang.y"
                               {}
-#line 1882 "y.tab.c"
+#line 1895 "y.tab.c"
     break;
 
   case 57: /* exp: NUM  */
-#line 419 "lang.y"
+#line 432 "lang.y"
                               {(yyval.type_value) = INT ; printf("LOADI(%d)\n", (yyvsp[0].int_value) );}
-#line 1888 "y.tab.c"
+#line 1901 "y.tab.c"
     break;
 
   case 58: /* exp: DEC  */
-#line 420 "lang.y"
+#line 433 "lang.y"
                               {(yyval.type_value) = FLOAT; printf("LOADF(%f)\n", (yyvsp[0].float_value) );}
-#line 1894 "y.tab.c"
+#line 1907 "y.tab.c"
     break;
 
   case 59: /* exp: NOT exp  */
-#line 425 "lang.y"
+#line 438 "lang.y"
                               {}
-#line 1900 "y.tab.c"
+#line 1913 "y.tab.c"
     break;
 
   case 60: /* exp: exp INF exp  */
-#line 426 "lang.y"
+#line 439 "lang.y"
                               {}
-#line 1906 "y.tab.c"
+#line 1919 "y.tab.c"
     break;
 
   case 61: /* exp: exp SUP exp  */
-#line 427 "lang.y"
+#line 440 "lang.y"
                               {}
-#line 1912 "y.tab.c"
+#line 1925 "y.tab.c"
     break;
 
   case 62: /* exp: exp EQUAL exp  */
-#line 428 "lang.y"
+#line 441 "lang.y"
                               {}
-#line 1918 "y.tab.c"
+#line 1931 "y.tab.c"
     break;
 
   case 63: /* exp: exp DIFF exp  */
-#line 429 "lang.y"
+#line 442 "lang.y"
                               {}
-#line 1924 "y.tab.c"
+#line 1937 "y.tab.c"
     break;
 
   case 64: /* exp: exp AND exp  */
-#line 430 "lang.y"
+#line 443 "lang.y"
                               {}
-#line 1930 "y.tab.c"
+#line 1943 "y.tab.c"
     break;
 
   case 65: /* exp: exp OR exp  */
-#line 431 "lang.y"
+#line 444 "lang.y"
                               {}
-#line 1936 "y.tab.c"
+#line 1949 "y.tab.c"
     break;
 
   case 66: /* app: fid PO args PF  */
-#line 438 "lang.y"
+#line 451 "lang.y"
                               {}
-#line 1942 "y.tab.c"
+#line 1955 "y.tab.c"
     break;
 
   case 67: /* fid: ID  */
-#line 441 "lang.y"
+#line 454 "lang.y"
                               {}
-#line 1948 "y.tab.c"
+#line 1961 "y.tab.c"
     break;
 
   case 68: /* args: arglist  */
-#line 443 "lang.y"
+#line 456 "lang.y"
                               {}
-#line 1954 "y.tab.c"
+#line 1967 "y.tab.c"
     break;
 
   case 69: /* args: %empty  */
-#line 444 "lang.y"
+#line 457 "lang.y"
                               {}
-#line 1960 "y.tab.c"
+#line 1973 "y.tab.c"
     break;
 
   case 70: /* arglist: arglist VIR exp  */
-#line 447 "lang.y"
+#line 460 "lang.y"
                               {}
-#line 1966 "y.tab.c"
+#line 1979 "y.tab.c"
     break;
 
   case 71: /* arglist: exp  */
-#line 448 "lang.y"
+#line 461 "lang.y"
                               {}
-#line 1972 "y.tab.c"
+#line 1985 "y.tab.c"
     break;
 
 
-#line 1976 "y.tab.c"
+#line 1989 "y.tab.c"
 
       default: break;
     }
@@ -2165,7 +2178,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 453 "lang.y"
+#line 466 "lang.y"
  
 int main () {
 

@@ -30,6 +30,17 @@ char* concatenate_strings(const char* str1, const char* str2) {
     return final_result;
 }
 
+int make_label(){
+  static int n = 0;
+  return n++;
+}
+
+int make_label2(){
+  static int m = 0;
+  return m++;
+}
+
+
 %}
 
 %union { 
@@ -280,38 +291,40 @@ cond :
 if bool_cond inst  elsop       {}
 ;
 
-elsop : else inst              {printf("End_%d\n", depth);}
+elsop : else inst              {printf("End_%d\n", $<label_value>-2);}
 |                  %prec IFX   {} // juste un "truc" pour éviter le message de conflit shift / reduce
 ;
 
 bool_cond : PO exp PF         {  
                               printf("GTF\n");
-                              printf("IFN(False_%d)\n", depth);
+                              printf("IFN(False_%d)\n", $<label_value>0);
                               }
 ;
 
-if : IF                       {}
+if : IF                       {$<label_value>$ = make_label();}
 ;                                      
 
 
 else : ELSE                   {
-                              printf("GOTO(End_%d)\n", depth);
-                              printf("False_%d:\n", depth); 
+                              printf("GOTO(End_%d)\n", $<label_value>-2);
+                              printf("False_%d:\n", $<label_value>-2); 
                               }
 ;
 
 // IV.4. Iterations
 
-loop : while while_cond inst  {printf("GOTO(StartLoop_%d)\n", depth);
-                              printf("EndLoop_%d:\n", depth);}
+loop : while while_cond inst  {printf("GOTO(StartLoop_%d)\n", $<label_value>2);
+                              printf("EndLoop_%d:\n", $<label_value>2);}
 ;
 
 while_cond : PO exp PF        {
                               printf("GTI\n");
-                              printf("IFN(EndLoop_%d)\n", depth);
+                              printf("IFN(EndLoop_%d)\n", $<label_value>2);
                                 }
 
-while : WHILE                 {printf("StartLoop_%d:\n", depth);}
+while : WHILE                 {
+                              $<label_value>$ = make_label2();
+                             }
 ;
 
 
