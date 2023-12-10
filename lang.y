@@ -19,7 +19,7 @@
 		
 
  
-  char* concatenate_strings(const char* str1, const char* str2) {   
+ char* concatenate_strings(const char* str1, const char* str2) {   
     char result[strlen(str1) + strlen(str2) + 1];
     strcpy(result, str1);
     strcat(result, str2);
@@ -258,7 +258,6 @@ vlist: vlist vir ID {
     
 } 
 | ID {
-  // Si la profondeur est différente de zéro, met à jour l'offset
   $$ = $<int_value>-1 + 1;
 
   // Met à jour la table des symboles pour la variable
