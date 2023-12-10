@@ -16,6 +16,7 @@ la partie 4. Conditionnelles Imbriquées. Les tests de cette partie
 passaient. 
 
 
-pour compiler : make; ./lang < ExN.myc 
+pour compiler : make
+               ./lang < Exemples/ExN.myc 
 
 
