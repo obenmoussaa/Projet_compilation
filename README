@@ -1,9 +1,21 @@
-BEN MOUSSA OUSSAMA
-MAJID MEDGHALI
 
-To be ran be default as
+Membres du groupe: 
+-BEN MOUSSA OUSSAMA
+-MAJID MEDGHALI
 
-./run ExN
+Ce travail a été fait dans le cadre du projet de compilation de 
+deuxième année informatique de l'année universitaire 2023-2024.
 
-with ExN.myc in Examples
-creating ExN_pcode.c
+Lien du projet:
+    <https://thor.enseirb-matmeca.fr/ruby/projects/if204>
+
+
+La dernière séance de Projet Compilation avec Mr D. Janin s'est 
+tenue le 04/12/2023. Nous nous sommes arrêtées au niveau de 
+la partie 4. Conditionnelles Imbriquées. Les tests de cette partie 
+passaient. 
+
+
+pour compiler : make; ./lang < ExN.myc 
+
+
