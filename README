@@ -12,8 +12,8 @@ Lien du projet:
 
 La dernière séance de Projet Compilation avec Mr D. Janin s'est 
 tenue le 04/12/2023. Nous nous sommes arrêtées au niveau de 
-la partie 4. Conditionnelles Imbriquées. Les tests de cette partie 
-passaient. 
+la partie 4: Gestion des branchements. 
+Les tests de cette partie passent. 
 
 
 pour compiler : make
