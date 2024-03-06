@@ -1,3 +1,5 @@
+- Ce projet de compilation a pour objet la réalisation d'un compilateur d'un mini langage impératif appelé pour l'occasion MyC vers du P-Code.
+Le P-code produit devra lui-même être compilable avec gcc (via une librairie de codage du PCode en C fournie) afin d'afficher la valeur de toutes les affectations et expressions de haut niveau
 
 Membres du groupe: 
 -BEN MOUSSA OUSSAMA
